@@ -25,7 +25,53 @@ GameBoard = (function () {
         }
     }
     const isTie = (gameboard) => gameboard.filter(gameSpot => gameSpot === null).length === 0
+    const reDrawOnBoard = (gameboard, position, marker) => {
+      const newGameboardDrawing = gameboard.map((item, index) => {
+        if (index === position) {
+            return marker
+        }
+        return item;
+      });
+      if (isWinningMove(newGameboardDrawing)) {
+        if (playerOne.getPlayerTurn()) {
+            alert(playerOne.getPlayerName()+ ' is the winner')
+        }
+        else if (playerTwo.getPlayerTurn()) {
+            alert(playerTwo.getPlayerName()+ ' is the winner')
+        }
+        playerOne.setPlayerTurn(false);
+        playerTwo.setPlayerTurn(false)
+        hasGameStarted = false
+      }
+      if (isTie(newGameboardDrawing)) {
+        hasGameStarted = false
+        alert('Is a tie')
+      }
+      renderGameBoard(newGameboardDrawing)
+    }
 
+    const attachEvent = (gameboard) => {
+      if (!hasGameStarted) {
+        return
+      }
+      const cells = document.getElementsByClassName('tic-tac-toe-cell');
+      for (let i = 0; i < cells.length; i ++) {
+        cells[i].onclick = (e) => {
+          const index = e.target.getAttribute('data-cell-index');
+          if (gameboard[parseInt(index)]) {
+              alert('Please play on another tile');
+              return;
+          }
+          const marker = playerTwo.getPlayerTurn() === true? playerTwo.getMarker() : playerOne.getMarker()
+
+          reDrawOnBoard(gameboard, parseInt(index), marker)
+
+          playerOne.setPlayerTurn(!playerOne.getPlayerTurn());
+          playerTwo.setPlayerTurn(!playerTwo.getPlayerTurn())
+
+        }
+      }
+    }
 
     return {
 
