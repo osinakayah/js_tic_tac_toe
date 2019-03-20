@@ -72,9 +72,31 @@ GameBoard = (function () {
         }
       }
     }
+    const renderGameBoard = (gameboard) => {
+        const view = gameboard.reduce((sumPositions, currentPosition, index) => {
+            return `${sumPositions}
+                <div data-cell-index="${index}" class="col-4 tic-tac-toe-cell">${currentPosition === null ? '' : currentPosition}</div>
+            `
+        }, '');
+        document.getElementById(gameBoardViewContainer).innerHTML = view;
+        attachEvent(gameboard);
+        return gameboard
+    }
 
     return {
+        init: (gameBoardContainer, _playerOne, _playerTwo) => {
+            hasGameStarted = true
+            gameBoardViewContainer = gameBoardContainer;
 
+            playerOne = _playerOne;
+            playerTwo = _playerTwo;
+
+            playerOne.setPlayerTurn(true)
+            playerTwo.setPlayerTurn(false)
+
+            renderGameBoard(Array(9).fill(null));
+
+        }
     }
 })();
 
