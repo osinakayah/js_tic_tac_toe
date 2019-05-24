@@ -4,7 +4,30 @@ GameBoard = (function () {
     let playerOne = null;
     let playerTwo = null;
     let hasGameStarted = false
+    const boardSquares = 3;
+
+    const checkDiagonalWin = () => {
+
+    }
+
+    const checkHorizontalWin = (gameboard) => {
+        const elementQueue = []
+        for(let n = 0 ; n <= boardSquares**2; n++) {
+            let nthElement = (n - 1);
+            if (elementQueue.length < boardSquares) {
+                elementQueue.push(nthElement);
+            }
+        }
+    }
+
+    const  checkVerticalWin = () => {
+
+    }
+
+
     const isWinningMove = (gameboard) => {
+
+
         switch (true) {
             case (gameboard[0] === 'O' && gameboard[1] === 'O' && gameboard[2] === 'O') || (gameboard[0] === 'X' && gameboard[1] === 'X' && gameboard[2] === 'X'):
                 return true
@@ -55,6 +78,7 @@ GameBoard = (function () {
         return
       }
       const cells = document.getElementsByClassName('tic-tac-toe-cell');
+
       for (let i = 0; i < cells.length; i ++) {
         cells[i].onclick = (e) => {
           const index = e.target.getAttribute('data-cell-index');
