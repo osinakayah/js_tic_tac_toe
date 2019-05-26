@@ -8,7 +8,6 @@ GameBoard = (function () {
 
 
     const checkIfAllValuesAreSame = (markersArr) => {
-        console.log(markersArr);
         if (markersArr.length > 2) {
             return markersArr.reduce((previousValue, currentValue) => {
                 return previousValue && currentValue;
