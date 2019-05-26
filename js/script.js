@@ -4,47 +4,88 @@ GameBoard = (function () {
     let playerOne = null;
     let playerTwo = null;
     let hasGameStarted = false
-    const boardSquares = 3;
+    const boardSquares = 3; // The number of square boxes
 
-    const checkDiagonalWin = () => {
+
+    const checkIfAllValuesAreSame = (markersArr) => {
+        console.log(markersArr);
+        if (markersArr.length > 2) {
+            return markersArr.reduce((previousValue, currentValue) => {
+                return previousValue && currentValue;
+            }, markersArr[0] === markersArr[1]);
+        }
+        return true;
 
     }
 
-    const checkHorizontalWin = (gameboard) => {
-        const elementQueue = []
-        for(let n = 0 ; n <= boardSquares**2; n++) {
-            let nthElement = (n - 1);
-            if (elementQueue.length < boardSquares) {
-                elementQueue.push(nthElement);
+    const checkForTopLeftDiagonalSequence = (gameboard) => {
+        const a = 1;
+        const d = boardSquares + 1;
+        const markersQue = [];
+        for (let n = 1; n <= boardSquares; n++) {
+            const nthTerm = a+ ((n -1) * d);
+            markersQue.push(gameboard[nthTerm - 1]);
+        }
+        if (checkIfAllValuesAreSame(markersQue)) {
+            return true
+        }
+        return false;
+    }
+    const checkForTopRightDiagonalSequence = (gameboard) => {
+        const a = boardSquares;
+        const d = boardSquares - 1;
+        const markersQue = [];
+        for (let n = 1; n <= boardSquares; n++) {
+            const nthTerm = a+ ((n -1) * d);
+            markersQue.push(gameboard[nthTerm - 1]);
+        }
+        if (checkIfAllValuesAreSame(markersQue)) {
+            return true
+        }
+        return false;
+    }
+
+    const checkForVerticalSequence = (gameboard) => {
+        const d = boardSquares;
+        for (let a = 1; a <= boardSquares; a++) {
+            const markersQue = [];
+            for (let n = 1; n <= boardSquares; n++) {
+                const nthTerm = a+ ((n -1) * d);
+                markersQue.push(gameboard[nthTerm - 1]);
+            }
+            if (checkIfAllValuesAreSame(markersQue)) {
+                return true
             }
         }
+        return false;
     }
-
-    const  checkVerticalWin = () => {
-
+    const checkHorizontalSequence = (gameboard) => {
+        const d = 1;
+        for (let a = 1; a < boardSquares**2; a = a + boardSquares) {
+            const markersQue = [];
+            for (let n = 1; n <= boardSquares; n++) {
+                const nthTerm = a+ ((n -1) * d);
+                markersQue.push(gameboard[nthTerm - 1]);
+            }
+            if (checkIfAllValuesAreSame(markersQue)) {
+                return true
+            }
+        }
+        return false
     }
 
 
     const isWinningMove = (gameboard) => {
 
-
         switch (true) {
-            case (gameboard[0] === 'O' && gameboard[1] === 'O' && gameboard[2] === 'O') || (gameboard[0] === 'X' && gameboard[1] === 'X' && gameboard[2] === 'X'):
+            case checkForTopRightDiagonalSequence(gameboard):
                 return true
-            case (gameboard[3] === 'O' && gameboard[4] === 'O' && gameboard[5] === 'O') || (gameboard[3] === 'X' && gameboard[4] === 'X' && gameboard[5] === 'X'):
+            case checkForTopLeftDiagonalSequence(gameboard):
                 return true
-            case (gameboard[6] === 'O' && gameboard[7] === 'O' && gameboard[8] === 'O') || (gameboard[6] === 'X' && gameboard[7] === 'X' && gameboard[8] === 'X'):
+            case checkHorizontalSequence(gameboard):
                 return true
-            case (gameboard[0] === 'O' && gameboard[3] === 'O' && gameboard[6] === 'O') || (gameboard[0] === 'X' && gameboard[3] === 'X' && gameboard[6] === 'X'):
-                return true
-            case (gameboard[1] === 'O' && gameboard[4] === 'O' && gameboard[7] === 'O') || (gameboard[1] === 'X' && gameboard[4] === 'X' && gameboard[7] === 'X'):
-                return true
-            case (gameboard[2] === 'O' && gameboard[5] === 'O' && gameboard[8] === 'O') || (gameboard[2] === 'X' && gameboard[5] === 'X' && gameboard[8] === 'X'):
-                return true
-            case (gameboard[0] === 'O' && gameboard[4] === 'O' && gameboard[8] === 'O') || (gameboard[0] === 'X' && gameboard[4] === 'X' && gameboard[8] === 'X'):
-                return true
-            case (gameboard[2] === 'O' && gameboard[4] === 'O' && gameboard[6] === 'O') || (gameboard[2] === 'X' && gameboard[4] === 'X' && gameboard[6] === 'X'):
-                return true
+            case checkForVerticalSequence(gameboard):
+                return true;
         }
     }
     const isTie = (gameboard) => gameboard.filter(gameSpot => gameSpot === null).length === 0
