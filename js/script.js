@@ -97,10 +97,11 @@ GameBoard = (function () {
       });
       if (isWinningMove(newGameboardDrawing)) {
         if (playerOne.getPlayerTurn()) {
-            alert(playerOne.getPlayerName()+ ' is the winner')
+            document.getElementById('winner').innerHTML = playerOne.getPlayerName()+ ' is the winner';
+
         }
         else if (playerTwo.getPlayerTurn()) {
-            alert(playerTwo.getPlayerName()+ ' is the winner')
+            document.getElementById('winner').innerHTML = playerTwo.getPlayerName()+ ' is the winner';
         }
         playerOne.setPlayerTurn(false);
         playerTwo.setPlayerTurn(false)
