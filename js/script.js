@@ -8,12 +8,10 @@ GameBoard = (function () {
 
 
     const checkIfAllValuesAreSame = (markersArr) => {
-        if (markersArr.length > 2) {
-            return markersArr.reduce((previousValue, currentValue) => {
-                return previousValue && currentValue;
-            }, markersArr[0] === markersArr[1]);
+        if (markersArr.length > 2 && markersArr[0] !== null) {
+            return markersArr.every( v => v === markersArr[0] )
         }
-        return true;
+        return false;
 
     }
 
@@ -26,6 +24,7 @@ GameBoard = (function () {
             markersQue.push(gameboard[nthTerm - 1]);
         }
         if (checkIfAllValuesAreSame(markersQue)) {
+            console.log(markersQue, 'checkForTopLeftDiagonalSequence', checkIfAllValuesAreSame(markersQue))
             return true
         }
         return false;
@@ -39,6 +38,7 @@ GameBoard = (function () {
             markersQue.push(gameboard[nthTerm - 1]);
         }
         if (checkIfAllValuesAreSame(markersQue)) {
+            console.log(markersQue, 'checkForTopRightDiagonalSequence', checkIfAllValuesAreSame(markersQue))
             return true
         }
         return false;
@@ -53,6 +53,7 @@ GameBoard = (function () {
                 markersQue.push(gameboard[nthTerm - 1]);
             }
             if (checkIfAllValuesAreSame(markersQue)) {
+                console.log(markersQue, 'checkForVerticalSequence', checkIfAllValuesAreSame(markersQue))
                 return true
             }
         }
@@ -67,6 +68,7 @@ GameBoard = (function () {
                 markersQue.push(gameboard[nthTerm - 1]);
             }
             if (checkIfAllValuesAreSame(markersQue)) {
+                console.log(markersQue, 'checkHorizontalSequence', checkIfAllValuesAreSame(markersQue))
                 return true
             }
         }
